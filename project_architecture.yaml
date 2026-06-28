@@ -8,9 +8,9 @@ architecture:
   pages_branch: "main"
 gates:
   - id: gate_01_github_pages_deployment
-    status: "pending"
+    status: "completed"
     spec: "./gate_01_github_pages_deployment/gate_01_spec.md"
-    version: "v0.0.0"
+    version: "v1.0.0"
   - id: gate_02_update_pipeline
     status: "pending"
     spec: "./gate_02_update_pipeline/gate_02_spec.md"
