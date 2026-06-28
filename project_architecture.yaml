@@ -1,8 +1,8 @@
 project: "kcang-stecklinge-v7-hosting"
-description: "Deterministisches Hosting der kcang_stecklinge_vollseiten_dark_default_v7.html via GitHub Pages"
+description: "Deterministisches Hosting der kcang_stecklinge_vollseiten_dark_default_v9.html via GitHub Pages"
 architecture:
   repo_name: "kcang-stecklinge-v7"
-  source_file: "C:\\Users\\User\\Downloads\\kcang_stecklinge_vollseiten_dark_default_v7.html"
+  source_file: "C:\\Users\\User\\Downloads\\kcang_stecklinge_vollseiten_dark_default_v9.html"
   target_file: "index.html"
   branch: "main"
   pages_branch: "main"
@@ -12,9 +12,9 @@ gates:
     spec: "./gate_01_github_pages_deployment/gate_01_spec.md"
     version: "v1.0.0"
   - id: gate_02_update_pipeline
-    status: "pending"
+    status: "ready"
     spec: "./gate_02_update_pipeline/gate_02_spec.md"
-    version: "v0.0.0"
+    version: "v1.0.0"
 team:
   visionary: "Kelsey Hightower / Declarative GitOps / GitHub Actions"
   red_teamer: "OWASP Strict / CI-CD Veto Gate"

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>KCanG-Stecklingsstreit · Vollseiten-Dashboard v7</title>
-  <meta name="description" content="Drei echte Vollseiten zum KCanG-Stecklingsstreit: Wortlaut, Methode der Umdeutung, Schaden und Business. Darkmode zuerst." />
+  <title>KCanG-Stecklingsstreit · Vollseiten-Dashboard v9</title>
+  <meta name="description" content="Drei echte Vollseiten zum KCanG-Stecklingsstreit: Wortlaut, Methode der Umdeutung, Schaden und Business. Darkmode zuerst. v9 mit sichtbarem Dark/Light-Schalter, ruhigerer Navigation und ohne horizontales Scrollen." />
   <style>
     :root {
       color-scheme: dark;
@@ -70,17 +70,18 @@
         linear-gradient(135deg, var(--bg), var(--bg-2));
       color: var(--ink);
       overflow: hidden;
+      overflow-x: hidden;
     }
     a { color: var(--accent-2); text-decoration-thickness: .08em; text-underline-offset: .24em; }
     a:hover { color: var(--accent); }
-    .app { height: 100vh; display: grid; grid-template-columns: 88px minmax(0, 1fr); }
+    .app { height: 100vh; display: grid; grid-template-columns: 162px minmax(0, 1fr); }
     .rail {
       position: relative;
       z-index: 20;
       border-right: 1px solid var(--line);
       background: color-mix(in srgb, var(--bg) 76%, transparent);
       backdrop-filter: blur(18px);
-      padding: 18px 12px;
+      padding: 18px 14px;
       display: grid;
       grid-template-rows: auto 1fr auto;
       gap: 16px;
@@ -92,8 +93,8 @@
       color: #07140d; font-weight: 950; letter-spacing: -.05em;
       box-shadow: var(--shadow-soft);
     }
-    .nav { display: grid; place-items: center; gap: 12px; align-self: center; }
-    .nav button, .util button, .ghost-btn {
+    .nav { display: grid; gap: 10px; align-self: center; }
+    .nav button, .util button, .ghost-btn, .theme-choice {
       appearance: none;
       border: 1px solid var(--line);
       color: var(--ink);
@@ -104,15 +105,38 @@
       transition: transform .18s ease, border-color .18s ease, background .18s ease, color .18s ease;
     }
     .nav button {
-      width: 54px; height: 54px; display: grid; place-items: center;
+      width: 100%; min-height: 58px;
+      display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: center;
+      padding: 0 12px;
       font-size: 15px;
       position: relative;
+      text-align: left;
     }
-    .nav button span { position: absolute; left: 66px; white-space: nowrap; opacity: 0; transform: translateX(-8px); pointer-events: none; background: var(--panel); border: 1px solid var(--line); padding: 9px 12px; border-radius: 999px; box-shadow: var(--shadow-soft); color: var(--ink); }
-    .nav button:hover span, .nav button:focus-visible span { opacity: 1; transform: translateX(0); }
-    .nav button[aria-current="page"] { background: linear-gradient(145deg, var(--accent), var(--accent-2)); color: #07140d; border-color: transparent; box-shadow: 0 0 0 6px rgba(156,230,182,.12); }
-    .util { display: grid; gap: 10px; place-items: center; }
-    .util button { width: 54px; min-height: 42px; }
+    .nav button strong { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: color-mix(in srgb, var(--panel-3) 86%, transparent); }
+    .nav button span { position: static; opacity: 1; transform: none; pointer-events: auto; background: transparent; border: 0; padding: 0; border-radius: 0; box-shadow: none; color: inherit; line-height: 1.12; font-size: 12px; overflow-wrap: anywhere; }
+    .nav button[aria-current="page"] { background: linear-gradient(145deg, var(--accent), var(--accent-2)); color: #07140d; border-color: transparent; box-shadow: 0 0 0 7px rgba(156,230,182,.14), 0 18px 38px rgba(0,0,0,.28); }
+    .nav button[aria-current="page"] strong { background: rgba(7,20,13,.14); }
+    .nav button[aria-current="page"]::after {
+      content: "";
+      position: absolute;
+      right: -17px;
+      width: 4px;
+      height: 34px;
+      border-radius: 99px;
+      background: var(--accent);
+      box-shadow: 0 0 24px rgba(156,230,182,.55);
+    }
+    .rail-note { display: none; }
+    .util { display: grid; gap: 10px; place-items: stretch; }
+    .util button { width: 100%; min-height: 42px; }
+    .theme-panel { display: grid; gap: 8px; }
+    .theme-caption { color: var(--muted); font-size: 11px; letter-spacing: .13em; text-transform: uppercase; font-weight: 950; }
+    .theme-switch { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; padding: 6px; border: 1px solid var(--line); border-radius: 22px; background: color-mix(in srgb, var(--panel-2) 70%, transparent); }
+    .theme-choice { min-height: 52px; border-radius: 17px; padding: 8px 6px; display: grid; place-items: center; text-align: center; gap: 2px; }
+    .theme-choice span { font-size: 13px; font-weight: 950; }
+    .theme-choice small { font-size: 10px; color: var(--muted); font-weight: 850; }
+    .theme-choice.active, .theme-choice[aria-pressed="true"] { background: linear-gradient(145deg, var(--accent), var(--accent-2)); color: #07140d; border-color: transparent; box-shadow: 0 0 0 5px rgba(156,230,182,.12); }
+    .theme-choice.active small, .theme-choice[aria-pressed="true"] small { color: rgba(7,20,13,.72); }
     button:hover, .ghost-btn:hover { transform: translateY(-1px); border-color: var(--line-2); background: var(--glass-strong); }
     button:focus-visible, a:focus-visible, .ghost-btn:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 45%, transparent); outline-offset: 3px; }
     .stage { position: relative; min-width: 0; height: 100vh; overflow: hidden; }
@@ -170,13 +194,27 @@
     }
     .grid-business {
       display: grid;
-      grid-template-columns: minmax(330px, .95fr) minmax(390px, 1.05fr) minmax(280px, .78fr);
+      grid-template-columns: minmax(260px, .95fr) minmax(330px, 1.05fr) minmax(240px, .78fr);
       gap: clamp(14px, 1.4vw, 20px);
       min-height: 0;
     }
-    .stack { display: grid; gap: 14px; min-height: 0; }
-    .scroll { overflow: auto; padding-right: 6px; scrollbar-width: thin; }
+    .stack { display: grid; gap: 14px; min-height: 0; min-width: 0; }
+    .scroll {
+      overflow: auto;
+      padding-right: 8px;
+      scrollbar-width: thin;
+      scrollbar-color: color-mix(in srgb, var(--accent) 52%, transparent) transparent;
+      overscroll-behavior: contain;
+      scroll-behavior: smooth;
+      min-width: 0;
+    }
+    .scroll::-webkit-scrollbar { width: 10px; height: 10px; }
+    .scroll::-webkit-scrollbar-track { background: transparent; }
+    .scroll::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--accent) 38%, transparent); border: 3px solid transparent; background-clip: content-box; border-radius: 999px; }
+    .scroll:focus-visible { outline: 2px solid color-mix(in srgb, var(--accent) 44%, transparent); outline-offset: 4px; border-radius: 18px; }
     .card {
+      min-width: 0;
+      overflow-wrap: anywhere;
       border: 1px solid var(--line);
       background: color-mix(in srgb, var(--panel) 84%, transparent);
       border-radius: var(--radius-lg);
@@ -259,8 +297,10 @@
     .calc div { display: grid; grid-template-columns: 1fr auto; gap: 14px; padding: 9px 0; border-bottom: 1px dashed var(--line); }
     .calc div:last-child { border-bottom: none; }
     .risk { display: grid; gap: 10px; }
-    .risk-item { border: 1px solid var(--line); border-radius: 18px; padding: 13px; background: var(--glass); }
-    .risk-item b { display: flex; justify-content: space-between; gap: 10px; }
+    .risk-item { border: 1px solid var(--line); border-radius: 18px; padding: 13px; background: var(--glass); min-width: 0; overflow: hidden; }
+    .risk-item b { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: 10px; line-height: 1.22; }
+    .risk-item b > span { font-size: 12px; color: var(--accent); justify-self: end; text-align: right; overflow-wrap: anywhere; }
+    .risk-item > span { display: block; margin-top: 7px; color: var(--ink-soft); line-height: 1.38; overflow-wrap: anywhere; }
     .bar { height: 8px; border-radius: 99px; background: rgba(255,255,255,.08); overflow: hidden; margin-top: 9px; border: 1px solid var(--line); }
     .bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--accent), var(--warning)); width: var(--w); }
     .footer-line { display: flex; gap: 10px; align-items: center; justify-content: space-between; color: var(--muted); font-size: 12px; min-height: 36px; }
@@ -279,18 +319,23 @@
     .print-hint { display: none; }
 
     @media (max-width: 1180px) {
-      body { overflow: auto; }
+      body { overflow: auto; overflow-x: hidden; }
       .app { min-height: 100vh; grid-template-columns: 1fr; }
-      .rail { position: sticky; top: 0; grid-template-columns: auto 1fr auto; grid-template-rows: 1fr; border-right: none; border-bottom: 1px solid var(--line); padding: 10px 14px; }
+      .rail { position: sticky; top: 0; grid-template-columns: auto minmax(0, 1fr) auto; grid-template-rows: 1fr; border-right: none; border-bottom: 1px solid var(--line); padding: 10px 14px; align-items: center; }
       .sigil { margin: 0; width: 48px; height: 48px; }
-      .nav { display: flex; justify-content: center; align-self: auto; }
+      .nav { display: flex; justify-content: center; align-self: auto; gap: 8px; }
+      .nav button { width: auto; min-height: 46px; grid-template-columns: auto; padding: 0 12px; }
+      .nav button strong { background: transparent; width: auto; height: auto; }
       .nav button span { display:none; }
-      .util { display: flex; justify-content: end; }
+      .nav button[aria-current="page"]::after { display: none; }
+      .theme-panel { min-width: 190px; }
+      .theme-caption { display: none; }
+      .util { display: none; }
       .stage { height: auto; min-height: calc(100vh - 70px); overflow: visible; }
       .page { position: relative; display: none; min-height: calc(100vh - 70px); }
       .page.active { display: block; }
-      .page-shell { height: auto; min-height: calc(100vh - 112px); }
-      .page-hero { min-height: calc(100vh - 112px); }
+      .page-shell { height: auto; min-height: calc(100vh - 112px); border-radius: 24px; }
+      .page-hero { min-height: calc(100vh - 112px); padding: 22px; }
       .grid-politics, .grid-business, .grid-legal { grid-template-columns: 1fr; }
       .scroll { overflow: visible; padding-right: 0; }
       .normchain { grid-template-columns: repeat(2, minmax(0,1fr)); }
@@ -304,25 +349,23 @@
       .stamp { text-align: left; }
       .normchain, .ledger, .team-grid { grid-template-columns: 1fr; }
       .footer-line { display: grid; }
-      .nav button, .util button { width: 46px; height: 42px; }
       .sigil { width: 44px; height: 44px; }
+      .theme-panel { min-width: 154px; }
+      .theme-switch { gap: 5px; padding: 5px; }
+      .theme-choice { min-height: 42px; }
       details.team { max-width: calc(100vw - 24px); }
+    }
+    @media (max-width: 520px) {
+      .rail { grid-template-columns: auto 1fr; gap: 10px; }
+      .theme-panel { grid-column: 1 / -1; width: 100%; min-width: 0; }
+      .theme-switch { grid-template-columns: 1fr 1fr; }
+      .nav { justify-content: end; }
+      .page { padding: 8px; }
+      .sigil { width: 40px; height: 40px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
-    }
-    @media (max-width: 980px) {
-      .app { grid-template-columns: 76px minmax(0, 1fr); }
-      .rail { padding: 14px 10px; }
-      .page-shell { border-radius: 24px; }
-      .page-hero { padding: 22px; }
-    }
-
-    @media (max-width: 680px) {
-      .page { padding: 8px; }
-      .sigil { width: 40px; height: 40px; }
-      .nav button, .util button { width: 44px; min-height: 40px; }
     }
     @media print {
       body { overflow: visible; background: white; color: black; }
@@ -346,9 +389,16 @@
         <button data-go="1" aria-label="Seite 2: Methode der Umdeutung"><strong>02</strong><span>Methode</span></button>
         <button data-go="2" aria-label="Seite 3: Schaden und Business"><strong>03</strong><span>Rechnung</span></button>
       </nav>
+      <div class="rail-note" id="railNote">Wortlaut</div>
+      <div class="theme-panel" aria-label="Darstellung wählen">
+        <div class="theme-caption">Darstellung</div>
+        <div class="theme-switch" role="group" aria-label="Dark oder Light Mode wählen">
+          <button class="theme-choice active" type="button" data-theme-choice="dark" aria-pressed="true"><span>Dark</span><small>Standard</small></button>
+          <button class="theme-choice" type="button" data-theme-choice="light" aria-pressed="false"><span>Light</span><small>Hell</small></button>
+        </div>
+      </div>
       <div class="util">
-        <button id="themeBtn" type="button" aria-label="Theme wechseln">☾</button>
-        <button id="printBtn" type="button" aria-label="Drucken oder PDF speichern">⎙</button>
+        <button id="printBtn" type="button" aria-label="Drucken oder PDF speichern">PDF</button>
       </div>
     </aside>
 
@@ -362,11 +412,11 @@
                 <h1 id="p1-title">Der Wortlaut beißt zurück.</h1>
                 <p class="sub">Ein Steckling ist kein Gerücht. Das Gesetz nennt <strong>Jungpflanzen</strong>. Wer daraus nur noch fast tote Sprossteile macht, schreibt leise um — mit lauter Wirkung.</p>
               </div>
-              <div class="stamp"><b>KCanG-Stecklingsstreit</b> Stand: 28.06.2026<br>Arbeitsfassung · keine Rechtsberatung</div>
+              <div class="stamp"><b>KCanG-Stecklingsstreit</b> Stand: 28.06.2026<br>Arbeitsfassung v9 · keine Rechtsberatung</div>
             </header>
 
             <div class="grid-legal">
-              <div class="stack scroll">
+              <div class="stack scroll" tabindex="0">
                 <article class="card">
                   <h2>Die Kette, bevor jemand kreativ wird</h2>
                   <div class="normchain" aria-label="Normkette">
@@ -395,7 +445,7 @@
                 </article>
               </div>
 
-              <aside class="stack scroll">
+              <aside class="stack scroll" tabindex="0">
                 <article class="card">
                   <h2>Die Kölner Operation</h2>
                   <div class="splitline">
@@ -444,7 +494,7 @@
             </header>
 
             <div class="grid-politics">
-              <section class="stack scroll">
+              <section class="stack scroll" tabindex="0">
                 <article class="card">
                   <div class="mini-title">Die Methode der Gegenseite</div>
                   <p class="bigline">Erst wird die Lücke moralisiert, dann wird die Definition verengt, dann wird der Vollzug als Sachzwang verkauft.</p>
@@ -472,7 +522,7 @@
                 </article>
               </section>
 
-              <section class="stack scroll">
+              <section class="stack scroll" tabindex="0">
                 <article class="card">
                   <h2>Ihre Methode: Vier Schritte zur Verbotswirkung</h2>
                   <div class="method-ladder">
@@ -491,7 +541,7 @@
                 </article>
               </section>
 
-              <aside class="stack scroll">
+              <aside class="stack scroll" tabindex="0">
                 <article class="card">
                   <h2>Gegenstimmen, richtig eingeordnet</h2>
                   <div class="voices">
@@ -531,7 +581,7 @@
             </header>
 
             <div class="grid-business">
-              <section class="stack scroll">
+              <section class="stack scroll" tabindex="0">
                 <article class="card">
                   <h2>Der tragende Rahmen</h2>
                   <div class="ledger">
@@ -556,7 +606,7 @@
                 </article>
               </section>
 
-              <section class="stack scroll">
+              <section class="stack scroll" tabindex="0">
                 <article class="card">
                   <h2>Schadensanzeige und Abhilfeaufforderung an Behörde</h2>
                   <div class="copybox">
@@ -577,7 +627,7 @@
                 </article>
               </section>
 
-              <aside class="stack scroll">
+              <aside class="stack scroll" tabindex="0">
                 <article class="card">
                   <h2>Wilde Prüfpfade</h2>
                   <div class="risk">
@@ -626,6 +676,8 @@
     const pages = [...document.querySelectorAll('.page')];
     const navs = [...document.querySelectorAll('.nav button')];
     let current = 0;
+    const pageNames = ["Wortlaut", "Methode", "Rechnung"];
+    const railNote = document.getElementById("railNote");
     function showPage(index) {
       current = (index + pages.length) % pages.length;
       pages.forEach((p, i) => p.classList.toggle('active', i === current));
@@ -633,6 +685,7 @@
         if (i === current) b.setAttribute('aria-current', 'page');
         else b.removeAttribute('aria-current');
       });
+      if (railNote) railNote.textContent = pageNames[current] || "";
       document.getElementById('stage').focus({preventScroll: true});
     }
     navs.forEach((b, i) => b.addEventListener('click', () => showPage(i)));
@@ -642,15 +695,23 @@
       if (e.key === 'Home') { e.preventDefault(); showPage(0); }
       if (e.key === 'End') { e.preventDefault(); showPage(pages.length - 1); }
     });
-    const themeBtn = document.getElementById('themeBtn');
-    themeBtn.addEventListener('click', () => {
+    const themeChoices = [...document.querySelectorAll('[data-theme-choice]')];
+    function setTheme(next) {
       const root = document.documentElement;
-      const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
       root.dataset.theme = next;
-      themeBtn.textContent = next === 'dark' ? '☾' : '☼';
-      themeBtn.setAttribute('aria-label', next === 'dark' ? 'Hellen Modus aktivieren' : 'Dunklen Modus aktivieren');
-    });
-    document.getElementById('printBtn').addEventListener('click', () => window.print());
+      themeChoices.forEach(btn => {
+        const active = btn.dataset.themeChoice === next;
+        btn.classList.toggle('active', active);
+        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+      try { localStorage.setItem('kcang-dashboard-theme', next); } catch {}
+    }
+    try {
+      const savedTheme = localStorage.getItem('kcang-dashboard-theme');
+      setTheme(savedTheme === 'light' ? 'light' : 'dark');
+    } catch { setTheme('dark'); }
+    themeChoices.forEach(btn => btn.addEventListener('click', () => setTheme(btn.dataset.themeChoice)));
+    document.getElementById('printBtn')?.addEventListener('click', () => window.print());
     const toast = document.getElementById('toast');
     document.querySelectorAll('[data-copy]').forEach(btn => {
       btn.addEventListener('click', async () => {
